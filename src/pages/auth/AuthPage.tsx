@@ -13,7 +13,7 @@ export function AuthPage() {
   const [errorMessage, setErrorMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ?? ROUTES.board
+  const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ?? ROUTES.overview
 
   if (!isLoading && (user || isGuestMode)) {
     return <Navigate replace to={from} />

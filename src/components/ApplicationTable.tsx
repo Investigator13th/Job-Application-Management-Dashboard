@@ -1,18 +1,14 @@
-import type { Application, ApplicationResultStatus } from '@/types/application'
 import { getDeadlineMeta } from '@/lib/deadlines'
+import {
+  APPLICATION_RESULT_STATUS_LABELS,
+  type Application,
+} from '@/types/application'
 
 interface ApplicationTableProps {
   applications: Application[]
   isDeleting: boolean
   onDelete: (application: Application) => void
   onEdit: (application: Application) => void
-}
-
-const RESULT_STATUS_LABELS: Record<ApplicationResultStatus, string> = {
-  ongoing: '进行中',
-  success: '成功',
-  failed: '失败',
-  withdrawn: '主动放弃',
 }
 
 export function ApplicationTable({ applications, isDeleting, onDelete, onEdit }: ApplicationTableProps) {
@@ -31,6 +27,7 @@ export function ApplicationTable({ applications, isDeleting, onDelete, onEdit }:
               <th scope="col">当前阶段</th>
               <th scope="col">下一个 DDL</th>
               <th scope="col">结果状态</th>
+              <th scope="col">笔记</th>
               <th scope="col">操作</th>
             </tr>
           </thead>
@@ -50,7 +47,14 @@ export function ApplicationTable({ applications, isDeleting, onDelete, onEdit }:
                       {deadlineMeta.label}
                     </span>
                   </td>
-                  <td>{RESULT_STATUS_LABELS[application.result_status]}</td>
+                  <td>
+                    <span className={`result-status-badge result-status-badge--${application.result_status}`}>
+                      {APPLICATION_RESULT_STATUS_LABELS[application.result_status]}
+                    </span>
+                  </td>
+                  <td>
+                    {application.notes?.trim() ? <span className="note-badge">有笔记</span> : <span className="application-table__empty-note">—</span>}
+                  </td>
                   <td>
                     <div className="application-table__actions">
                       <button className="text-button" onClick={() => onEdit(application)} type="button">

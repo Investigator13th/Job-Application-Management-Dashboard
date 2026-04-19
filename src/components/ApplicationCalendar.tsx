@@ -109,9 +109,8 @@ export function ApplicationCalendar({ applications }: ApplicationCalendarProps) 
     <section className="hero-card hero-card--stacked application-calendar" aria-label="申请日历视图">
       <div className="application-calendar__header">
         <div>
-          <p className="section-label">T5 日历视图</p>
+          <p className="section-label">日历视图</p>
           <h2>按日期查看下一步截止事项</h2>
-          <p className="page-description">只展示存在有效 DDL 的申请，便于从时间维度安排投递、笔试和面试节点。</p>
         </div>
         <div className="application-calendar__actions">
           <button className="secondary-button" onClick={() => setCurrentMonth((month) => addMonths(month, -1))} type="button">
@@ -161,9 +160,6 @@ export function ApplicationCalendar({ applications }: ApplicationCalendarProps) 
                 ))}
                 {entries.length > 2 ? (
                   <span className="application-calendar__more">还有 {entries.length - 2} 条</span>
-                ) : null}
-                {entries.length === 0 ? (
-                  <span className="application-calendar__empty">{formatCellDate(date)}</span>
                 ) : null}
               </div>
             </button>

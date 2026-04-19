@@ -9,11 +9,10 @@ export function DeadlinePanel({ applications }: DeadlinePanelProps) {
   const urgentItems = getUrgentApplications(applications, 5)
 
   return (
-    <section className="hero-card deadline-panel" aria-label="临近 DDL 提示区">
+    <section className="hero-card deadline-panel" aria-label="临近截止">
       <div>
-        <p className="section-label">T5 DDL 提示</p>
+        <p className="section-label">临近截止</p>
         <h2>优先处理这些申请</h2>
-        <p className="page-description">按截止时间排序，优先展示已过期和未来 3 天内即将截止的申请。</p>
       </div>
 
       {urgentItems.length === 0 ? (

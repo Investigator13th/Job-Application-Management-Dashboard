@@ -1,7 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import type { Application } from '@/types/application'
 import { getDeadlineMeta } from '@/lib/deadlines'
+import {
+  APPLICATION_RESULT_STATUS_LABELS,
+  type Application,
+} from '@/types/application'
 
 interface ApplicationCardProps {
   application: Application
@@ -43,9 +46,15 @@ export function ApplicationCard({ application, isDragging = false, onDelete, onE
         <span>{application.stage}</span>
       </div>
       <p className="application-card__job">{application.job_title}</p>
-      <p className={`application-card__meta application-card__meta--${deadlineMeta.status}`}>
-        DDL：{deadlineMeta.label}
-      </p>
+      <div className="application-card__status-row">
+        <span className={`result-status-badge result-status-badge--${application.result_status}`}>
+          {APPLICATION_RESULT_STATUS_LABELS[application.result_status]}
+        </span>
+        {application.notes?.trim() ? <span className="note-badge">有笔记</span> : null}
+        <p className={`application-card__meta application-card__meta--${deadlineMeta.status}`}>
+          DDL：{deadlineMeta.label}
+        </p>
+      </div>
       {onEdit || onDelete ? (
         <div className="application-card__actions">
           {onEdit ? (

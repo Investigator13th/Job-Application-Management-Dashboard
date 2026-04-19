@@ -47,7 +47,7 @@ body {
   display: grid;
   grid-template-columns: 248px minmax(0, 1fr);
   height: 100vh;
-  overflow: hidden;
+  position: relative;
   background: var(--color-bg);
 }
 
@@ -60,7 +60,7 @@ body {
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-right: 1px solid rgba(0, 0, 0, 0.04);
-  z-index: 100;
+  z-index: 10;
 }
 
 .app-shell__brand h1 {
@@ -876,16 +876,19 @@ h2 {
 .reminder-modal {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 200;
   display: grid;
   place-items: center;
   padding: 20px;
+  pointer-events: none;
+}
+
+.reminder-modal__card {
+  pointer-events: auto;
 }
 
 .reminder-modal__backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.5);
+  display: none;
 }
 
 .reminder-modal__card {

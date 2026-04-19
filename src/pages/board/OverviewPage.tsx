@@ -25,8 +25,13 @@ export function OverviewPage() {
     return window.sessionStorage.getItem(REMINDER_SESSION_KEY) !== 'true'
   })
 
+  // 渲染函数移出，或者在此仅保留逻辑，由 Shell 统一控制
+  // 但为了最快修复，我们先在本地确保遮罩层渲染在正确的位置
+
   const stats = useMemo(() => computeApplicationStats(applications), [applications])
   const urgentApplications = useMemo(() => getUrgentApplications(applications, 5), [applications])
+  
+  // ... 其他 memo 逻辑保持 ...
   const recentApplications = useMemo(() => (
     [...applications]
       .sort((left, right) => new Date(right.created_at).getTime() - new Date(left.created_at).getTime())
@@ -43,45 +48,46 @@ export function OverviewPage() {
     setIsReminderModalOpen(false)
   }
 
+  const reminderElement = isReminderModalOpen && urgentApplications.length > 0 ? (
+    <div className="reminder-modal" role="dialog" aria-modal="true" aria-labelledby="urgent-reminder-title">
+      <div className="reminder-modal__backdrop" onClick={handleReminderClose} />
+      <section className="reminder-modal__card">
+        <div className="reminder-modal__header">
+          <div>
+            <p className="section-label">今日重点</p>
+            <h2 id="urgent-reminder-title">近期截止提醒</h2>
+          </div>
+          <button
+            aria-label="关闭提醒弹窗"
+            className="secondary-button reminder-modal__close"
+            onClick={handleReminderClose}
+            type="button"
+          >
+            我知道了
+          </button>
+        </div>
+
+        <div className="reminder-modal__list">
+          {urgentApplications.map(({ application, deadline }) => (
+            <article className="reminder-modal__item" key={application.id}>
+              <div>
+                <p className="reminder-modal__company">{application.company_name}</p>
+                <p className="reminder-modal__job">{application.job_title}</p>
+              </div>
+              <div className="reminder-modal__meta">
+                <span className={`deadline-badge deadline-badge--${deadline.status}`}>{deadline.toneLabel}</span>
+                <span className="reminder-modal__date">{deadline.label}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  ) : null
+
   return (
     <>
-      {isReminderModalOpen && urgentApplications.length > 0 ? (
-        <div className="reminder-modal" role="dialog" aria-modal="true" aria-labelledby="urgent-reminder-title">
-          <div className="reminder-modal__backdrop" onClick={handleReminderClose} />
-          <section className="reminder-modal__card">
-            <div className="reminder-modal__header">
-              <div>
-                <p className="section-label">今日重点</p>
-                <h2 id="urgent-reminder-title">近期截止提醒</h2>
-              </div>
-              <button
-                aria-label="关闭提醒弹窗"
-                className="secondary-button reminder-modal__close"
-                onClick={handleReminderClose}
-                type="button"
-              >
-                我知道了
-              </button>
-            </div>
-
-            <div className="reminder-modal__list">
-              {urgentApplications.map(({ application, deadline }) => (
-                <article className="reminder-modal__item" key={application.id}>
-                  <div>
-                    <p className="reminder-modal__company">{application.company_name}</p>
-                    <p className="reminder-modal__job">{application.job_title}</p>
-                  </div>
-                  <div className="reminder-modal__meta">
-                    <span className={`deadline-badge deadline-badge--${deadline.status}`}>{deadline.toneLabel}</span>
-                    <span className="reminder-modal__date">{deadline.label}</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        </div>
-      ) : null}
-
+      {reminderElement}
       <main className="dashboard-page dashboard-page--overview">
         {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         {isLoading ? <p className="board-feedback">正在加载申请总览...</p> : null}
@@ -90,7 +96,6 @@ export function OverviewPage() {
           <>
             <DeadlinePanel applications={applications} />
             <StatsPanel stats={stats} />
-
             <section className="overview-grid">
               <section className="hero-card hero-card--stacked" aria-label="最近新增申请">
                 <div>

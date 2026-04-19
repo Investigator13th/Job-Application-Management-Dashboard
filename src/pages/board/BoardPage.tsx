@@ -217,158 +217,177 @@ export function BoardPage() {
 
   return (
     <main className="dashboard-page dashboard-page--board">
-      <section className="hero-card hero-card--stacked">
+      <section className="hero-card">
         <div className="hero-card__top">
           <div>
-            <p className="section-label">快速录入</p>
-            <h2>新增与编辑申请</h2>
+            <p className="section-label">申请看板</p>
+            <h2 style={{ margin: 0 }}>管理你的所有机会</h2>
           </div>
           <button className="primary-button" onClick={openCreateForm} type="button">新增申请</button>
         </div>
-
-        {isFormOpen ? (
-          <form className="quick-form" onSubmit={handleSubmit}>
-            <div className="quick-form__grid">
-              <label className="field-label">
-                <span>公司名称</span>
-                <input
-                  autoFocus
-                  onChange={(event) => handleInputChange('company_name', event.target.value)}
-                  placeholder="例如：美团"
-                  type="text"
-                  value={formValues.company_name}
-                />
-              </label>
-
-              <label className="field-label">
-                <span>岗位名称</span>
-                <input
-                  onChange={(event) => handleInputChange('job_title', event.target.value)}
-                  placeholder="例如：前端开发工程师"
-                  type="text"
-                  value={formValues.job_title}
-                />
-              </label>
-
-              <label className="field-label">
-                <span>当前阶段</span>
-                <select
-                  onChange={(event) => handleInputChange('stage', event.target.value as ApplicationStage)}
-                  value={formValues.stage}
-                >
-                  {APPLICATION_STAGES.map((stage) => (
-                    <option key={stage} value={stage}>
-                      {stage}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="field-label">
-                <span>投递日期</span>
-                <input
-                  onChange={(event) => handleInputChange('applied_at', event.target.value)}
-                  type="date"
-                  value={formValues.applied_at ?? ''}
-                />
-              </label>
-
-              <label className="field-label">
-                <span>结果状态</span>
-                <select
-                  onChange={(event) => handleInputChange('result_status', event.target.value)}
-                  value={formValues.result_status}
-                >
-                  {APPLICATION_RESULT_STATUS_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="field-label">
-                <span>下一个 DDL</span>
-                <input
-                  onChange={(event) => handleInputChange('next_deadline', event.target.value)}
-                  type="date"
-                  value={formValues.next_deadline ?? ''}
-                />
-              </label>
-            </div>
-
-            <div className="quick-form__grid quick-form__grid--details">
-              <label className="field-label quick-form__notes-field">
-                <span>笔记</span>
-                <textarea
-                  className="quick-form__notes-input"
-                  onChange={(event) => handleInputChange('notes', event.target.value)}
-                  placeholder="记录笔试题目、面试反馈、沟通要点等纯文本内容"
-                  rows={5}
-                  value={formValues.notes ?? ''}
-                />
-              </label>
-
-              <label className="field-label">
-                <span>JD 链接</span>
-                <input
-                  onChange={(event) => handleInputChange('jd_url', event.target.value)}
-                  placeholder="https://..."
-                  type="url"
-                  value={formValues.jd_url ?? ''}
-                />
-              </label>
-
-              <label className="field-label">
-                <span>JD 摘要</span>
-                <textarea
-                  onChange={(event) => handleInputChange('jd_snapshot', event.target.value)}
-                  placeholder="复制岗位要求或关键信息"
-                  rows={4}
-                  value={formValues.jd_snapshot ?? ''}
-                />
-              </label>
-
-              <label className="field-label">
-                <span>简历版本</span>
-                <input
-                  onChange={(event) => handleInputChange('resume_version', event.target.value)}
-                  placeholder="例如：前端-平台版"
-                  type="text"
-                  value={formValues.resume_version ?? ''}
-                />
-              </label>
-
-              <label className="field-label">
-                <span>联系信息</span>
-                <textarea
-                  onChange={(event) => handleInputChange('contact_info', event.target.value)}
-                  placeholder="记录 HR、面试官或沟通渠道"
-                  rows={4}
-                  value={formValues.contact_info ?? ''}
-                />
-              </label>
-            </div>
-
-            {formError ? <p className="form-error">{formError}</p> : null}
-
-            <div className="quick-form__actions">
-              <div>
-                <p className="quick-form__title">{formTitle}</p>
-                <p className="quick-form__hint">提交成功后会立即同步到当前看板与资料库。</p>
-              </div>
-              <div className="quick-form__buttons">
-                <button className="secondary-button" onClick={closeForm} type="button">
-                  取消
-                </button>
-                <button className="primary-button" disabled={isSubmitting} type="submit">
-                  {isSubmitting ? '提交中...' : submitLabel}
-                </button>
-              </div>
-            </div>
-          </form>
-        ) : null}
       </section>
+
+      {isFormOpen && (
+        <div className="app-drawer" role="dialog" aria-modal="true">
+          <div className="app-drawer__backdrop" onClick={closeForm} />
+          <aside className="app-drawer__panel">
+            <div className="app-drawer__header">
+              <div>
+                <p className="section-label">快速录入</p>
+                <h3 style={{ margin: 0, fontSize: '20px' }}>{formTitle}</h3>
+              </div>
+              <button className="secondary-button icon-button" onClick={closeForm}>
+                ✕
+              </button>
+            </div>
+            
+            <div className="app-drawer__body">
+              <form className="quick-form" onSubmit={handleSubmit} style={{ gap: '32px', display: 'flex', flexDirection: 'column' }}>
+                <div className="quick-form__grid">
+                  <label className="field-label">
+                    <span>公司名称</span>
+                    <input
+                      autoFocus
+                      onChange={(event) => handleInputChange('company_name', event.target.value)}
+                      placeholder="例如：美团"
+                      type="text"
+                      value={formValues.company_name}
+                    />
+                  </label>
+
+                  <label className="field-label">
+                    <span>岗位名称</span>
+                    <input
+                      onChange={(event) => handleInputChange('job_title', event.target.value)}
+                      placeholder="例如：前端开发工程师"
+                      type="text"
+                      value={formValues.job_title}
+                    />
+                  </label>
+
+                  <label className="field-label">
+                    <span>当前阶段</span>
+                    <select
+                      onChange={(event) => handleInputChange('stage', event.target.value as ApplicationStage)}
+                      value={formValues.stage}
+                    >
+                      {APPLICATION_STAGES.map((stage) => (
+                        <option key={stage} value={stage}>
+                          {stage}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label className="field-label">
+                    <span>投递日期</span>
+                    <input
+                      onChange={(event) => handleInputChange('applied_at', event.target.value)}
+                      type="date"
+                      value={formValues.applied_at ?? ''}
+                    />
+                  </label>
+
+                  <label className="field-label">
+                    <span>结果状态</span>
+                    <select
+                      onChange={(event) => handleInputChange('result_status', event.target.value)}
+                      value={formValues.result_status}
+                    >
+                      {APPLICATION_RESULT_STATUS_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label className="field-label">
+                    <span>下一个 DDL</span>
+                    <input
+                      onChange={(event) => handleInputChange('next_deadline', event.target.value)}
+                      type="date"
+                      value={formValues.next_deadline ?? ''}
+                    />
+                  </label>
+                </div>
+
+                <div className="quick-form__grid quick-form__grid--details">
+                  <label className="field-label quick-form__notes-field">
+                    <span>笔记</span>
+                    <textarea
+                      className="quick-form__notes-input"
+                      onChange={(event) => handleInputChange('notes', event.target.value)}
+                      placeholder="记录笔试题目、面试反馈、沟通要点等纯文本内容"
+                      rows={5}
+                      value={formValues.notes ?? ''}
+                    />
+                  </label>
+
+                  <label className="field-label">
+                    <span>JD 链接</span>
+                    <input
+                      onChange={(event) => handleInputChange('jd_url', event.target.value)}
+                      placeholder="https://..."
+                      type="url"
+                      value={formValues.jd_url ?? ''}
+                    />
+                  </label>
+
+                  <label className="field-label">
+                    <span>JD 摘要</span>
+                    <textarea
+                      onChange={(event) => handleInputChange('jd_snapshot', event.target.value)}
+                      placeholder="复制岗位要求或关键信息"
+                      rows={4}
+                      value={formValues.jd_snapshot ?? ''}
+                    />
+                  </label>
+
+                  <label className="field-label">
+                    <span>简历版本</span>
+                    <input
+                      onChange={(event) => handleInputChange('resume_version', event.target.value)}
+                      placeholder="例如：前端-平台版"
+                      type="text"
+                      value={formValues.resume_version ?? ''}
+                    />
+                  </label>
+
+                  <label className="field-label">
+                    <span>联系信息</span>
+                    <textarea
+                      onChange={(event) => handleInputChange('contact_info', event.target.value)}
+                      placeholder="记录 HR、面试官或沟通渠道"
+                      rows={4}
+                      value={formValues.contact_info ?? ''}
+                    />
+                  </label>
+                </div>
+
+                {formError ? <p className="form-error">{formError}</p> : null}
+
+                <div className="quick-form__actions" style={{ position: 'sticky', bottom: 0, background: 'var(--color-bg)', padding: '16px 0', borderTop: '1px solid var(--color-border)', marginTop: 'auto' }}>
+                  <div style={{ flex: 1 }}>
+                    <p className="quick-form__hint">数据将同步到看板与资料库。</p>
+                  </div>
+                  <div className="quick-form__buttons">
+                    <button className="secondary-button" onClick={closeForm} type="button">
+                      取消
+                    </button>
+                    <button className="primary-button" disabled={isSubmitting} type="submit">
+                      {isSubmitting ? '提交中...' : submitLabel}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </aside>
+        </div>
+      )}
+
+
+
 
       <section className="application-view-switcher" aria-label="申请视图切换">
         <button

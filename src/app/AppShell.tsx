@@ -44,7 +44,7 @@ export function AppShell() {
     <div className="app-shell">
       <aside className="app-shell__sidebar">
         <div className="app-shell__brand">
-          <h1>Job OS</h1>
+          <h1>Jobtrack</h1>
         </div>
 
         <nav className="sidebar-nav" aria-label="主导航">

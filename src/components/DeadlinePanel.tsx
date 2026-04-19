@@ -10,9 +10,14 @@ export function DeadlinePanel({ applications }: DeadlinePanelProps) {
 
   return (
     <section className="hero-card deadline-panel" aria-label="临近截止">
-      <div>
-        <p className="section-label">临近截止</p>
-        <h2>优先处理这些申请</h2>
+      <div className="deadline-panel__header">
+        <div>
+          <p className="section-label">临近截止</p>
+          <h2>优先处理申请</h2>
+        </div>
+        <p className="deadline-panel__desc">
+          {urgentItems.length > 0 ? `你有 ${urgentItems.length} 项任务需要紧急处理` : '暂无需要紧急处理的任务'}
+        </p>
       </div>
 
       {urgentItems.length === 0 ? (

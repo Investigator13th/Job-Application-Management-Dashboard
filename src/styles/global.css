@@ -18,6 +18,31 @@ body {
   letter-spacing: -0.374px;
 }
 
+/* 自定义按需显示滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+*:hover::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
 .app-shell {
   display: grid;
   grid-template-columns: 248px minmax(0, 1fr);
@@ -275,65 +300,60 @@ h2 {
 }
 
 .stats-panel {
-  gap: 32px;
+  gap: 20px;
 }
 
 .stats-panel__header {
   display: flex;
   justify-content: space-between;
   gap: 32px;
-  align-items: flex-start;
+  align-items: center;
 }
 
-.stats-panel__summary-grid,
-.stats-panel__grid {
-  display: grid;
-  gap: 16px;
+.stats-panel__quick-stats {
+  display: flex;
+  gap: 40px;
+  align-items: center;
 }
 
-.stats-panel__summary-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.quick-stat {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
 }
 
-.stats-panel__grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.stats-card,
-.stats-block {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-}
-
-.stats-card {
-  padding: 18px;
-}
-
-.stats-card__label,
-.stats-block__header p,
-.stats-list__label {
+.quick-stat__label {
   color: var(--color-text-secondary);
-}
-
-.stats-card__label {
-  margin-bottom: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
 }
 
-.stats-card__value {
+.quick-stat__value {
   color: var(--color-text-primary);
   font-size: 32px;
   line-height: 1;
 }
 
+.stats-panel__grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .stats-block {
-  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  padding: 16px 20px;
+}
+
+.stats-block__header p,
+.stats-list__label {
+  color: var(--color-text-secondary);
 }
 
 .stats-block__header {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .stats-block__header h3,
@@ -351,8 +371,9 @@ h2 {
 }
 
 .stats-list {
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .stats-list__item {
@@ -387,7 +408,7 @@ h2 {
   gap: 32px;
 }
 
-.calendar-drawer {
+.app-drawer {
   position: fixed;
   inset: 0;
   z-index: 100;
@@ -395,7 +416,7 @@ h2 {
   justify-content: flex-end;
 }
 
-.calendar-drawer__backdrop {
+.app-drawer__backdrop {
   position: absolute;
   inset: 0;
   background: rgba(15, 23, 42, 0.4);
@@ -404,9 +425,9 @@ h2 {
   animation: fadeIn 0.3s ease;
 }
 
-.calendar-drawer__panel {
+.app-drawer__panel {
   position: relative;
-  width: min(100%, 480px);
+  width: min(100%, 560px);
   height: 100vh;
   background: var(--color-bg);
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
@@ -416,7 +437,7 @@ h2 {
   overflow: hidden;
 }
 
-.calendar-drawer__header {
+.app-drawer__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -424,7 +445,7 @@ h2 {
   border-bottom: 1px solid var(--color-border);
 }
 
-.calendar-drawer__body {
+.app-drawer__body {
   padding: 32px;
   overflow-y: auto;
   flex: 1;
@@ -947,9 +968,7 @@ h2 {
 .dashboard-page--account {
 }
 
-.dashboard-page--board > .hero-card:first-of-type {
-  overflow: auto;
-}
+
 
 .dashboard-page--board > .application-view-switcher,
 .dashboard-page--board > .board-feedback,
@@ -969,7 +988,27 @@ h2 {
   overflow: auto;
 }
 
-.deadline-panel,
+.deadline-panel {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 40px;
+  align-items: flex-start;
+  min-height: 0;
+}
+
+.deadline-panel__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.deadline-panel__desc {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
 .stats-panel,
 .resource-section,
 .application-calendar,
@@ -999,19 +1038,24 @@ h2 {
 }
 
 .deadline-panel__list {
-  display: grid;
-  gap: 12px;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
 }
 
 .deadline-panel__item {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 16px;
-  align-items: center;
+  gap: 20px;
+  align-items: flex-start;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  padding: 14px 16px;
+  padding: 18px 24px;
+  min-width: 260px;
+  flex-shrink: 0;
 }
 
 .deadline-panel__company,
@@ -1032,10 +1076,11 @@ h2 {
 
 .deadline-panel__meta {
   display: flex;
-  gap: 10px;
+  gap: 16px;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .deadline-badge {
@@ -1353,6 +1398,7 @@ h2 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.app-drawer .quick-form__grid,
 .quick-form__grid--details {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -1397,6 +1443,11 @@ h2 {
 }
 
 @media (max-width: 900px) {
+  .deadline-panel {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
   body {
     overflow: auto;
   }
@@ -1662,50 +1713,13 @@ button[type="submit"]:active {
 }
 
 .auth-brand__feature-desc {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.45);
   font-size: 13px;
   margin: 0;
   line-height: 1.5;
 }
 
-/* 飞书对比区块 */
-.auth-brand__comparison {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 24px;
-}
 
-.auth-brand__comparison-title {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 12px;
-}
-
-.auth-brand__comparison-list {
-  display: grid;
-  gap: 10px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.auth-brand__comparison-item {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.5;
-}
-
-.auth-brand__comparison-item::before {
-  content: "→";
-  color: #ffb703;
-  flex-shrink: 0;
-  font-weight: 600;
-}
 
 /* ============================================================
    响应式：≥ 960px 启用左右双栏

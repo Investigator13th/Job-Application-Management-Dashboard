@@ -55,11 +55,11 @@ export function AuthPage() {
 
         <ul className="auth-brand__features">
           {[
-            { icon: '📋', title: '看板全局视图', desc: '投递、笔试、面试、Offer 全阶段一屏呈现' },
-            { icon: '⏰', title: 'DDL 智能预警', desc: '临近截止自动标红,不再漏掉重要节点' },
-            { icon: '📁', title: '资料随卡归档', desc: 'JD、简历版本、面经笔记全部挂在申请卡片下' },
-            { icon: '✏️', title: '三秒录入一条', desc: '只填四项核心字段,告别臃肿大表格' },
-            { icon: '📅', title: '日历视图', desc: '以时间轴方式查看所有 DDL,把控整月节奏' },
+            { icon: '📋', title: '一屏掌控全局进度', desc: '从投递到 Offer，全阶段进展一眼见底，不再迷失在申请堆里' },
+            { icon: '⏰', title: 'DDL 变色自动预警', desc: '智能感知死线，卡片随紧急程度自动变色，今天该忙啥一目了然' },
+            { icon: '📁', title: '档案袋式一站归档', desc: 'JD、简历、面经同步挂载申请卡片，告别资料散落翻找的烦恼' },
+            { icon: '✏️', title: '3 秒极速录入体验', desc: '专为求职定制核心字段，告别臃肿表格，手机端也能随时记录' },
+            { icon: '📅', title: '掌控整月申请节奏', desc: '一键切换日历时间轴，科学规划面排期，从容应对双招高峰' },
           ].map((f) => (
             <li key={f.title} className="auth-brand__feature">
               <span className="auth-brand__feature-icon">{f.icon}</span>
@@ -70,22 +70,6 @@ export function AuthPage() {
             </li>
           ))}
         </ul>
-
-        <div className="auth-brand__comparison">
-          <p className="auth-brand__comparison-title">为什么不用飞书多维表格?</p>
-          <ul className="auth-brand__comparison-list">
-            {[
-              '飞书是通用工具,需自建字段;JobTrack 求职流程开箱即用',
-              '飞书看板无法感知 DDL 紧迫程度;JobTrack 颜色自动变化',
-              '飞书移动端大表格体验差;JobTrack 手机也能快速录入',
-              '飞书无法将 JD 与申请绑定;JobTrack 每张卡片即档案袋',
-            ].map((item, i) => (
-              <li key={i} className="auth-brand__comparison-item">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
       </aside>
 
       <section className="auth-card">

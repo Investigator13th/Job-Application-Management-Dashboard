@@ -173,10 +173,10 @@ export function ApplicationCalendar({ applications }: ApplicationCalendarProps) 
       </section>
 
       {selectedDayKey && (
-        <div className="calendar-drawer" role="dialog" aria-modal="true">
-          <div className="calendar-drawer__backdrop" onClick={() => setSelectedDayKey(null)} />
-          <aside className="calendar-drawer__panel">
-            <div className="calendar-drawer__header">
+        <div className="app-drawer" role="dialog" aria-modal="true">
+          <div className="app-drawer__backdrop" onClick={() => setSelectedDayKey(null)} />
+          <aside className="app-drawer__panel">
+            <div className="app-drawer__header">
               <div>
                 <p className="section-label">当日详情</p>
                 <h3 style={{ margin: 0, fontSize: '20px' }}>{selectedDate ? formatDetailDate(selectedDate) : '请选择一个日期'}</h3>
@@ -186,7 +186,7 @@ export function ApplicationCalendar({ applications }: ApplicationCalendarProps) 
               </button>
             </div>
             
-            <div className="calendar-drawer__body">
+            <div className="app-drawer__body">
               {selectedEntries.length === 0 ? (
                 <div className="placeholder-input application-calendar__detail-empty">当前日期没有可展示的申请记录。</div>
               ) : (

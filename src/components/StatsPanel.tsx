@@ -38,15 +38,14 @@ export function StatsPanel({ stats }: StatsPanelProps) {
           <p className="section-label">数据概览</p>
           <h2>申请统计</h2>
         </div>
-      </div>
-
-      <div className="stats-panel__summary-grid">
-        {SUMMARY_ITEMS.map(({ key, label }) => (
-          <article className="stats-card" key={key}>
-            <p className="stats-card__label">{label}</p>
-            <strong className="stats-card__value">{stats[key]}</strong>
-          </article>
-        ))}
+        <div className="stats-panel__quick-stats">
+          {SUMMARY_ITEMS.map(({ key, label }) => (
+            <div className="quick-stat" key={key}>
+              <span className="quick-stat__label">{label}</span>
+              <strong className="quick-stat__value">{stats[key]}</strong>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="stats-panel__grid">

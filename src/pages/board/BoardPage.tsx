@@ -217,13 +217,6 @@ export function BoardPage() {
 
   return (
     <main className="dashboard-page dashboard-page--board">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">Applications</p>
-          <h2>申请管理</h2>
-        </div>
-      </header>
-
       <section className="hero-card hero-card--stacked">
         <div className="hero-card__top">
           <div>

@@ -4,8 +4,10 @@ import type {
   UpdateApplicationInput,
 } from '@/types/application'
 import { GUEST_USER_ID } from '@/lib/guest-session'
+import { DEMO_SEED_APPLICATIONS } from '@/lib/demo-seed-data'
 
 const GUEST_APPLICATIONS_KEY = 'job-board.guest-applications'
+const DEMO_SEEDED_KEY = 'job-board.demo-seeded'
 
 function canUseLocalStorage() {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined'
@@ -52,7 +54,31 @@ function createGuestApplicationId() {
   return `guest-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
 }
 
+function isDemoSeeded(): boolean {
+  if (!canUseLocalStorage()) return true
+  return window.localStorage.getItem(DEMO_SEEDED_KEY) === 'true'
+}
+
+function markDemoSeeded(): void {
+  if (!canUseLocalStorage()) return
+  window.localStorage.setItem(DEMO_SEEDED_KEY, 'true')
+}
+
+function seedDemoApplications(): void {
+  if (isDemoSeeded()) return
+
+  const existing = readApplications()
+  if (existing.length > 0) {
+    markDemoSeeded()
+    return
+  }
+
+  writeApplications(DEMO_SEED_APPLICATIONS)
+  markDemoSeeded()
+}
+
 export async function listGuestApplications() {
+  seedDemoApplications()
   return sortApplications(readApplications())
 }
 

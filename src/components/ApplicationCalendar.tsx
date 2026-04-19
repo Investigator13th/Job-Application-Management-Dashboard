@@ -106,22 +106,23 @@ export function ApplicationCalendar({ applications }: ApplicationCalendarProps) 
   const selectedDate = selectedEntries[0]?.date ?? null
 
   return (
-    <section className="hero-card hero-card--stacked application-calendar" aria-label="申请日历视图">
-      <div className="application-calendar__header">
-        <div>
-          <p className="section-label">日历视图</p>
-          <h2>按日期查看下一步截止事项</h2>
+    <>
+      <section className="hero-card application-calendar hero-card--stacked calendar-full-height" aria-label="申请日历视图">
+        <div className="application-calendar__header">
+          <div>
+            <p className="section-label">日历视图</p>
+            <h2>按日期查看下一步截止事项</h2>
+          </div>
+          <div className="application-calendar__actions">
+            <button className="secondary-button" onClick={() => setCurrentMonth((month) => addMonths(month, -1))} type="button">
+              上个月
+            </button>
+            <strong className="application-calendar__month-label">{formatMonthLabel(currentMonth)}</strong>
+            <button className="secondary-button" onClick={() => setCurrentMonth((month) => addMonths(month, 1))} type="button">
+              下个月
+            </button>
+          </div>
         </div>
-        <div className="application-calendar__actions">
-          <button className="secondary-button" onClick={() => setCurrentMonth((month) => addMonths(month, -1))} type="button">
-            上个月
-          </button>
-          <strong className="application-calendar__month-label">{formatMonthLabel(currentMonth)}</strong>
-          <button className="secondary-button" onClick={() => setCurrentMonth((month) => addMonths(month, 1))} type="button">
-            下个月
-          </button>
-        </div>
-      </div>
 
       <div className="application-calendar__weekdays" aria-hidden="true">
         {WEEKDAY_LABELS.map((label) => (
@@ -152,54 +153,67 @@ export function ApplicationCalendar({ applications }: ApplicationCalendarProps) 
                 {entries.length > 0 ? <span className="application-calendar__count">{entries.length} 条</span> : null}
               </div>
 
-              <div className="application-calendar__items">
-                {entries.slice(0, 2).map(({ application }) => (
-                  <span className="application-calendar__item" key={application.id}>
-                    {application.company_name} · {application.job_title}
-                  </span>
-                ))}
-                {entries.length > 2 ? (
-                  <span className="application-calendar__more">还有 {entries.length - 2} 条</span>
-                ) : null}
-              </div>
+              {entries.length > 0 ? (
+                <div className="application-calendar__indicators">
+                  {entries.slice(0, 3).map(({ application }, index) => (
+                    <div className="application-calendar__indicator-item" key={index}>
+                      <span className="application-calendar__dot" />
+                      <span className="application-calendar__indicator-text" title={application.company_name}>{application.company_name}</span>
+                    </div>
+                  ))}
+                  {entries.length > 3 ? (
+                    <span className="application-calendar__indicator-more">+ {entries.length - 3} 项日程</span>
+                  ) : null}
+                </div>
+              ) : null}
             </button>
           )
         })}
       </div>
+      </section>
 
-      <div className="application-calendar__detail">
-        <div>
-          <p className="section-label">当日详情</p>
-          <h2>{selectedDate ? formatDetailDate(selectedDate) : '请选择一个日期'}</h2>
-          <p className="page-description">
-            {selectedDate ? '查看这一天需要推进的申请事项。' : '点击任意日期后，在这里查看当天聚合的申请详情。'}
-          </p>
+      {selectedDayKey && (
+        <div className="calendar-drawer" role="dialog" aria-modal="true">
+          <div className="calendar-drawer__backdrop" onClick={() => setSelectedDayKey(null)} />
+          <aside className="calendar-drawer__panel">
+            <div className="calendar-drawer__header">
+              <div>
+                <p className="section-label">当日详情</p>
+                <h3 style={{ margin: 0, fontSize: '20px' }}>{selectedDate ? formatDetailDate(selectedDate) : '请选择一个日期'}</h3>
+              </div>
+              <button className="text-button" onClick={() => setSelectedDayKey(null)} type="button">
+                关闭
+              </button>
+            </div>
+            
+            <div className="calendar-drawer__body">
+              {selectedEntries.length === 0 ? (
+                <div className="placeholder-input application-calendar__detail-empty">当前日期没有可展示的申请记录。</div>
+              ) : (
+                <div className="application-calendar__detail-list">
+                  {selectedEntries.map(({ application }) => {
+                    const deadline = getDeadlineMeta(application.next_deadline)
+
+                    return (
+                      <article className="application-calendar__detail-card" key={application.id}>
+                        <div>
+                          <p className="application-calendar__detail-company">{application.company_name}</p>
+                          <p className="application-calendar__detail-job">{application.job_title}</p>
+                        </div>
+                        <div className="application-calendar__detail-meta">
+                          <span className="application-table__stage">{application.stage}</span>
+                          <span className={`deadline-badge deadline-badge--${deadline.status}`}>{deadline.toneLabel}</span>
+                          <span className="application-calendar__detail-date">{deadline.label}</span>
+                        </div>
+                      </article>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          </aside>
         </div>
-
-        {selectedEntries.length === 0 ? (
-          <div className="placeholder-input application-calendar__detail-empty">当前日期没有可展示的申请记录。</div>
-        ) : (
-          <div className="application-calendar__detail-list">
-            {selectedEntries.map(({ application }) => {
-              const deadline = getDeadlineMeta(application.next_deadline)
-
-              return (
-                <article className="application-calendar__detail-card" key={application.id}>
-                  <div>
-                    <p className="application-calendar__detail-company">{application.company_name}</p>
-                    <p className="application-calendar__detail-job">{application.job_title}</p>
-                  </div>
-                  <div className="application-calendar__detail-meta">
-                    <span className="application-table__stage">{application.stage}</span>
-                    <span className={`deadline-badge deadline-badge--${deadline.status}`}>{deadline.toneLabel}</span>
-                    <span className="application-calendar__detail-date">{deadline.label}</span>
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        )}
-      </div>
-    </section>
+      )}
+    </>
   )
 }

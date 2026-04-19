@@ -7,12 +7,6 @@ export function AccountPage() {
 
   return (
     <main className="dashboard-page dashboard-page--account">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">Account</p>
-          <h2>账号</h2>
-        </div>
-      </header>
 
       <section className="hero-card hero-card--stacked">
         <div>

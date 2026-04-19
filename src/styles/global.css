@@ -135,6 +135,16 @@ body {
   margin: 0;
 }
 
+.dashboard-page--calendar {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.calendar-full-height {
+  flex: 1;
+  min-height: 0;
+}
+
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -377,6 +387,59 @@ h2 {
   gap: 32px;
 }
 
+.calendar-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.calendar-drawer__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+.calendar-drawer__panel {
+  position: relative;
+  width: min(100%, 480px);
+  height: 100vh;
+  background: var(--color-bg);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.calendar-drawer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 32px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.calendar-drawer__body {
+  padding: 32px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .application-calendar__header,
 .application-calendar__actions,
 .application-calendar__cell-top,
@@ -403,11 +466,20 @@ h2 {
   text-align: center;
 }
 
-.application-calendar__weekdays,
+.application-calendar__weekdays {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  flex-shrink: 0;
+}
+
 .application-calendar__grid {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  flex: 1;
+  min-height: 0;
 }
 
 .application-calendar__weekday {
@@ -419,12 +491,14 @@ h2 {
 
 .application-calendar__cell {
   display: grid;
-  gap: 12px;
-  min-height: 100px;
+  gap: 8px;
+  align-content: start;
+  min-height: 0;
+  height: 100%;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  padding: 14px;
+  padding: 12px;
   text-align: left;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
@@ -473,6 +547,7 @@ h2 {
 .application-calendar__detail-list {
   display: grid;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .application-calendar__item,
@@ -494,6 +569,47 @@ h2 {
 .application-calendar__item {
   color: var(--color-text-primary);
   font-weight: 500;
+}
+
+.application-calendar__indicators {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.application-calendar__indicator-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface-muted, #f4f5f7);
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  width: 100%;
+}
+
+.application-calendar__indicator-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.application-calendar__indicator-more {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  padding-left: 4px;
+  opacity: 0.7;
+}
+
+.application-calendar__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  flex-shrink: 0;
 }
 
 .application-calendar__detail-company,
@@ -1468,4 +1584,160 @@ button[type="submit"]:active {
 
 .auth-page {
   background: var(--color-bg) !important;
+}
+
+/* ============================================================
+   Auth Brand Panel — 左侧宣传区
+   ============================================================ */
+
+.auth-brand {
+  display: none; /* 默认隐藏，大屏通过 media query 开启 */
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  padding: 48px;
+  background: linear-gradient(160deg, #07130b 0%, #115e41 100%);
+  border-radius: var(--radius-lg);
+  color: #ffffff;
+}
+
+/* 品牌标题区 */
+.auth-brand__eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffb703;
+  margin: 0 0 8px;
+}
+
+.auth-brand__title {
+  font-size: 40px;
+  font-weight: 700;
+  font-family: var(--font-family-display);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0 0 8px;
+}
+
+.auth-brand__subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* Feature bullet 列表 */
+.auth-brand__features {
+  display: grid;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.auth-brand__feature {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.auth-brand__feature-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 183, 3, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.auth-brand__feature-title {
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 2px;
+  font-size: 14px;
+}
+
+.auth-brand__feature-desc {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 飞书对比区块 */
+.auth-brand__comparison {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 24px;
+}
+
+.auth-brand__comparison-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 12px;
+}
+
+.auth-brand__comparison-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.auth-brand__comparison-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.5;
+}
+
+.auth-brand__comparison-item::before {
+  content: "→";
+  color: #ffb703;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+/* ============================================================
+   响应式：≥ 960px 启用左右双栏
+   ============================================================ */
+
+@media (min-width: 960px) {
+  .auth-page {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    gap: 32px;
+    padding: 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  .auth-brand {
+    display: flex;
+  }
+
+  .auth-card {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 959px) {
+  .auth-brand {
+    display: none;
+  }
 }

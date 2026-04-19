@@ -83,17 +83,6 @@ export function OverviewPage() {
       ) : null}
 
       <main className="dashboard-page dashboard-page--overview">
-        <header className="app-header">
-          <div>
-            <p className="eyebrow">Overview</p>
-            <h2>总览</h2>
-          </div>
-          <div className="header-actions">
-            <Link className="secondary-button" to={ROUTES.applications}>进入申请管理</Link>
-            <Link className="primary-button" to={ROUTES.calendar}>查看日历</Link>
-          </div>
-        </header>
-
         {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         {isLoading ? <p className="board-feedback">正在加载申请总览...</p> : null}
 
@@ -103,27 +92,6 @@ export function OverviewPage() {
             <StatsPanel stats={stats} />
 
             <section className="overview-grid">
-              <section className="hero-card hero-card--stacked" aria-label="快捷入口">
-                <div>
-                  <p className="section-label">下一步去哪</p>
-                  <h2>快捷入口</h2>
-                </div>
-                <div className="overview-shortcuts">
-                  <Link className="overview-shortcut" to={ROUTES.applications}>
-                    <strong>申请管理</strong>
-                  </Link>
-                  <Link className="overview-shortcut" to={`${ROUTES.applications}?view=list`}>
-                    <strong>列表视图</strong>
-                  </Link>
-                  <Link className="overview-shortcut" to={ROUTES.calendar}>
-                    <strong>日历</strong>
-                  </Link>
-                  <Link className="overview-shortcut" to={ROUTES.resources}>
-                    <strong>资料库</strong>
-                  </Link>
-                </div>
-              </section>
-
               <section className="hero-card hero-card--stacked" aria-label="最近新增申请">
                 <div>
                   <p className="section-label">最近新增</p>

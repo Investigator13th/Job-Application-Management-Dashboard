@@ -76,15 +76,6 @@ export function ResourcesPage() {
 
   return (
     <main className="dashboard-page dashboard-page--resources">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">Resources</p>
-          <h2>资料库</h2>
-        </div>
-        <div className="header-actions">
-          <Link className="secondary-button" to={ROUTES.applications}>去申请管理编辑原始记录</Link>
-        </div>
-      </header>
 
       {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
       {isLoading ? <p className="board-feedback">正在加载资料库...</p> : null}

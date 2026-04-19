@@ -263,6 +263,7 @@ h2 {
   justify-content: space-between;
   gap: 32px;
   align-items: flex-start;
+  flex: 1;
 }
 
 .home-tabs {

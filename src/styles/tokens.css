@@ -1,22 +1,36 @@
 :root {
-  --color-bg: #f5f5f7;
-  --color-bg-dark: #000000;
+  /* System Base Colors */
+  --color-bg: #fbfcfb;
+  --color-bg-dark: #07130b;
   --color-surface: #ffffff;
-  --color-surface-muted: #eaeaed;
-  --color-text-primary: #1d1d1f;
-  --color-text-secondary: rgba(0, 0, 0, 0.8);
-  --color-text-tertiary: rgba(0, 0, 0, 0.48);
-  --color-border: transparent;
-  --color-primary: #0071e3;
-  --color-accent: #0071e3;
-  --color-link: #0066cc;
-  --shadow-card: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
-  --shadow-hover: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
-  --radius-sm: 8px;
-  --radius-md: 11px;
-  --radius-lg: 12px;
-  --radius-pill: 980px;
+  --color-surface-muted: #e4f0e9;
+  
+  /* Text & Hierarchies */
+  --color-text-primary: #091A12;
+  --color-text-secondary: #6c7f76;
+  --color-text-tertiary: rgba(108, 127, 118, 0.6);
+  
+  /* Borders - Soft gossamer vines */
+  --color-border: rgba(9, 26, 18, 0.04);
+  
+  /* Brand Core (Dense Forest & Amber Sunlight) */
+  --color-primary: #115E41;
+  --color-accent: #FFB703;
+  --color-link: #115E41;
+  
+  /* Depth & Light - The Tyndall Effect Shadows */
+  --shadow-card: rgba(17, 94, 65, 0.03) 0px 8px 24px 0px;
+  --shadow-hover: rgba(17, 94, 65, 0.15) 0px 20px 40px -10px, rgba(255, 183, 3, 0.2) 0px 8px 16px -8px;
+  
+  /* Organic Geometry */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+  
   --page-max-width: 980px;
-  --font-family-display: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-family-base: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  
+  /* Breathing Typography */
+  --font-family-display: "Outfit", "Nunito", "SF Pro Rounded", "Helvetica Neue", Helvetica, sans-serif;
+  --font-family-base: "Outfit", "Nunito", "SF Pro Rounded", "Helvetica Neue", Helvetica, sans-serif;
 }
